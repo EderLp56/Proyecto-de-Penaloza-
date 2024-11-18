@@ -73,3 +73,15 @@ void ClonaPalabras(char* szPalabraLeida, char szPalabrasSugeridas[][TAMTOKEN], i
         clon[i + 1] = temp;
         strcpy(szPalabrasSugeridas[(*iNumSugeridas)++], clon);
     }
+
+    // Inserción
+    for (int i = 0; szPalabraLeida[i] != '\0'; i++) {
+        for (char c = 'a'; c <= 'z'; c++) {
+            char clon[TAMTOKEN];
+            strcpy(clon, szPalabraLeida);
+            memmove(&clon[i + 1], &clon[i], strlen(clon) - i + 1);
+            clon[i] = c;  // Insertar carácter
+            strcpy(szPalabrasSugeridas[(*iNumSugeridas)++], clon);
+        }
+    }
+
