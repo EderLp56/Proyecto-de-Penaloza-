@@ -53,3 +53,14 @@ void ClonaPalabras(char* szPalabraLeida, char szPalabrasSugeridas[][TAMTOKEN], i
         memmove(&clon[i], &clon[i + 1], strlen(clon) - i);
         strcpy(szPalabrasSugeridas[(*iNumSugeridas)++], clon);
     }
+    // Sustitución
+    for (int i = 0; szPalabraLeida[i] != '\0'; i++) {
+        for (char c = 'a'; c <= 'z'; c++) {
+            if (szPalabraLeida[i] != c) {
+                char clon[TAMTOKEN];
+                strcpy(clon, szPalabraLeida);
+                clon[i] = c;  // Sustituir carácter
+                strcpy(szPalabrasSugeridas[(*iNumSugeridas)++], clon);
+            }
+        }
+    }
