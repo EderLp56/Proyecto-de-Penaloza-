@@ -38,3 +38,6 @@ void Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
     }
 
     fclose(archivo);
+    // Ordenar diccionario
+    qsort(szPalabras, *iNumElementos, TAMTOKEN, (int (*)(const void*, const void*))strcmp);
+}
