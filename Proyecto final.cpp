@@ -84,4 +84,7 @@ void ClonaPalabras(char* szPalabraLeida, char szPalabrasSugeridas[][TAMTOKEN], i
             strcpy(szPalabrasSugeridas[(*iNumSugeridas)++], clon);
         }
     }
+    // Ordenar las palabras clonadas
+    qsort(szPalabrasSugeridas, *iNumSugeridas, TAMTOKEN, (int (*)(const void*, const void*))strcmp);
+}
 
