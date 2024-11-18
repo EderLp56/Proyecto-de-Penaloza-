@@ -11,6 +11,13 @@ void Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
         perror("Error al abrir el archivo");
         return;
     }
-
+    //se agrega codigo
     char palabra[TAMTOKEN];
     *iNumElementos = 0;
+    while (fscanf(archivo, "%s", palabra) != EOF && *iNumElementos < MAXPALABRAS) {
+        // Eliminar paréntesis si están presentes
+        if (palabra[0] == '(' && palabra[strlen(palabra) - 1] == ')') {
+            // Copiar la palabra sin los paréntesis
+            memmove(palabra, palabra + 1, strlen(palabra) - 1);
+            palabra[strlen(palabra) - 1] = '\0';
+        }
