@@ -41,3 +41,15 @@ void Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
     // Ordenar diccionario
     qsort(szPalabras, *iNumElementos, TAMTOKEN, (int (*)(const void*, const void*))strcmp);
 }
+
+// Función para clonar palabras a partir de una palabra dada
+void ClonaPalabras(char* szPalabraLeida, char szPalabrasSugeridas[][TAMTOKEN], int* iNumSugeridas) {
+    *iNumSugeridas = 0;
+
+    // Supresión
+    for (int i = 0; szPalabraLeida[i] != '\0'; i++) {
+        char clon[TAMTOKEN];
+        strcpy(clon, szPalabraLeida);
+        memmove(&clon[i], &clon[i + 1], strlen(clon) - i);
+        strcpy(szPalabrasSugeridas[(*iNumSugeridas)++], clon);
+    }
