@@ -30,3 +30,11 @@ void Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
                 break;
             }
         }
+        if (!encontrado) {
+            strcpy(szPalabras[*iNumElementos], palabra);
+            iEstadisticas[*iNumElementos] = 1;
+            (*iNumElementos)++;
+        }
+    }
+
+    fclose(archivo);
