@@ -21,3 +21,12 @@ void Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
             memmove(palabra, palabra + 1, strlen(palabra) - 1);
             palabra[strlen(palabra) - 1] = '\0';
         }
+        //agrega codigo 2 
+        int encontrado = 0;
+        for (int i = 0; i < *iNumElementos; i++) {
+            if (strcmp(szPalabras[i], palabra) == 0) {
+                iEstadisticas[i]++;
+                encontrado = 1;
+                break;
+            }
+        }
