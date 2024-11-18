@@ -22,11 +22,11 @@ void Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
             palabra[strlen(palabra) - 1] = '\0';
         }
         //agrega codigo 2 
-        int encontrado = 0;
-        for (int i = 0; i < *iNumElementos; i++) {
+        int encontrado = 0;  // Inicializamos la bandera
+        for (int i = 0; i < *iNumElementos && !encontrado; i++) {  // Mientras no se haya encontrado, seguimos iterando
             if (strcmp(szPalabras[i], palabra) == 0) {
                 iEstadisticas[i]++;
-                encontrado = 1;
-                break;
+                encontrado = 1;  // Activamos la bandera si se encuentra la palabra
             }
         }
+
