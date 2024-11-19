@@ -104,6 +104,69 @@ void ListaCandidatas(char szPalabrasSugeridas[][TAMTOKEN], int iNumSugeridas, ch
             if (strcmp(szPalabrasSugeridas[i], szPalabras[j]) == 0) {
                 strcpy(szListaFinal[*iNumLista], szPalabras[j]);
                 iPeso[*iNumLista] = iEstadisticas[j];
+
+
+
+                #include "corrector.h"
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char szPalabras[MAXPALABRAS][TAMTOKEN];  // Diccionario de palabras
+    int iEstadisticas[MAXPALABRAS];          // Frecuencia de cada palabra en el diccionario
+    int iNumElementos;                       // Número de palabras en el diccionario
+
+    char archivoDiccionario[TAMTOKEN];
+
+    // Solicitar al usuario el nombre del archivo de diccionario
+    printf("Ingrese el nombre del archivo del diccionario: ");
+    fgets(archivoDiccionario, TAMTOKEN, stdin);
+    archivoDiccionario[strcspn(archivoDiccionario, "\n")] = 0;  // Eliminar el salto de línea
+
+    // Cargar el diccionario
+    Diccionario(archivoDiccionario, szPalabras, iEstadisticas, &iNumElementos);
+
+    // Mostrar todas las palabras detectadas y sus frecuencias
+    printf("Diccionario cargado:\n");
+    for (int i = 0; i < iNumElementos; i++) {
+        printf("Palabra: %s, Frecuencia: %d\n", szPalabras[i], iEstadisticas[i]);
+    }
+
+    // Bucle principal para corrección de palabras
+    char szPalabraLeida[TAMTOKEN];
+    char szPalabrasSugeridas[MAXPALABRAS][TAMTOKEN];
+    int iNumSugeridas;
+    
+    while (1) {
+        // Solicitar al usuario una palabra para corregir
+        printf("\nIngrese una palabra para corregir (o 'fin' para salir): ");
+        fgets(szPalabraLeida, TAMTOKEN, stdin);
+        szPalabraLeida[strcspn(szPalabraLeida, "\n")] = 0;  // Eliminar salto de línea
+        
+        if (strcmp(szPalabraLeida, "fin") == 0) {
+            break;  // Salir si se ingresa "fin"
+        }
+
+        // Clonar las palabras a sugerir
+        ClonaPalabras(szPalabraLeida, szPalabrasSugeridas, &iNumSugeridas);
+
+        char szListaFinal[MAXPALABRAS][TAMTOKEN];
+        int iPeso[MAXPALABRAS];
+        int iNumLista;
+
+        // Obtener las palabras candidatas
+        ListaCandidatas(szPalabrasSugeridas, iNumSugeridas, szPalabras, iEstadisticas, iNumElementos, szListaFinal, iPeso, &iNumLista);
+
+        // Mostrar las palabras sugeridas
+        printf("Palabras sugeridas para '%s':\n", szPalabraLeida);
+        for (int i = 0; i < iNumLista; i++) {
+            printf("Palabra: %s, Frecuencia: %d\n", szListaFinal[i], iPeso[i]);
+        }
+    }
+
+    return 0;
+}
+
                 (*iNumLista)++;
                 encontrado = 1;  // Activamos la bandera cuando encontramos una coincidencia
             }
