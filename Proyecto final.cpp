@@ -12,9 +12,7 @@ void Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
         return;
     }
     //se agrega codigo
-    char palabra[TAMTOKEN];
-    *iNumElementos = 0;
-    while (fscanf(archivo, "%s", palabra) != EOF && *iNumElementos < MAXPALABRAS) {
+ 
         // Eliminar paréntesis si están presentes
         if (palabra[0] == '(' && palabra[strlen(palabra) - 1] == ')') {
             // Copiar la palabra sin los paréntesis
