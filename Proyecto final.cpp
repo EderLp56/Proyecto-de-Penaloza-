@@ -1,10 +1,10 @@
-//Proyecto de peloza 
+//Proyecto de pe陇aloza 
 #include "corrector.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-// Funci髇 para cargar el diccionario desde el archivo
+// Funci贸n para cargar el diccionario desde el archivo
 void Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[], int* iNumElementos) {
     FILE* archivo = fopen(szNombre, "r");
     if (archivo == NULL) {
@@ -15,21 +15,25 @@ void Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
     char palabra[TAMTOKEN];
     *iNumElementos = 0;
     while (fscanf(archivo, "%s", palabra) != EOF && *iNumElementos < MAXPALABRAS) {
-        // Eliminar par閚tesis si est醤 presentes
+        // Eliminar par茅ntesis si est谩n presentes
         if (palabra[0] == '(' && palabra[strlen(palabra) - 1] == ')') {
-            // Copiar la palabra sin los par閚tesis
+            // Copiar la palabra sin los par茅ntesis
             memmove(palabra, palabra + 1, strlen(palabra) - 1);
             palabra[strlen(palabra) - 1] = '\0';
         }
-        //agrega codigo 2 
-        int encontrado = 0;
-        for (int i = 0; i < *iNumElementos; i++) {
-            if (strcmp(szPalabras[i], palabra) == 0) {
-                iEstadisticas[i]++;
-                encontrado = 1;
-                break;
+     
+    for (int i = 0; i < iNumSugeridas; i++) {
+        int encontrado = 0;  // Inicializamos la bandera a 0 antes de cada iteraci贸n del primer bucle
+
+        for (int j = 0; j < iNumElementos && !encontrado; j++) {  // Continuamos mientras no se haya encontrado
+            if (strcmp(szPalabrasSugeridas[i], szPalabras[j]) == 0) {
+                strcpy(szListaFinal[*iNumLista], szPalabras[j]);
+                iPeso[*iNumLista] = iEstadisticas[j];
+                (*iNumLista)++;
+                encontrado = 1;  // Activamos la bandera cuando encontramos una coincidencia
             }
         }
+    }
         if (!encontrado) {
             strcpy(szPalabras[*iNumElementos], palabra);
             iEstadisticas[*iNumElementos] = 1;
@@ -42,29 +46,29 @@ void Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
     qsort(szPalabras, *iNumElementos, TAMTOKEN, (int (*)(const void*, const void*))strcmp);
 }
 
-// Funci髇 para clonar palabras a partir de una palabra dada
+// Funci贸n para clonar palabras a partir de una palabra dada
 void ClonaPalabras(char* szPalabraLeida, char szPalabrasSugeridas[][TAMTOKEN], int* iNumSugeridas) {
     *iNumSugeridas = 0;
 
-    // Supresi髇
+    // Supresi贸n
     for (int i = 0; szPalabraLeida[i] != '\0'; i++) {
         char clon[TAMTOKEN];
         strcpy(clon, szPalabraLeida);
         memmove(&clon[i], &clon[i + 1], strlen(clon) - i);
         strcpy(szPalabrasSugeridas[(*iNumSugeridas)++], clon);
     }
-    // Sustituci髇
+    // Sustituci贸n
     for (int i = 0; szPalabraLeida[i] != '\0'; i++) {
         for (char c = 'a'; c <= 'z'; c++) {
             if (szPalabraLeida[i] != c) {
                 char clon[TAMTOKEN];
                 strcpy(clon, szPalabraLeida);
-                clon[i] = c;  // Sustituir car醕ter
+                clon[i] = c;  // Sustituir car谩cter
                 strcpy(szPalabrasSugeridas[(*iNumSugeridas)++], clon);
             }
         }
     }
-    // Trasposici髇
+    // Trasposici贸n
     for (int i = 0; szPalabraLeida[i + 1] != '\0'; i++) {
         char clon[TAMTOKEN];
         strcpy(clon, szPalabraLeida);
@@ -74,32 +78,34 @@ void ClonaPalabras(char* szPalabraLeida, char szPalabrasSugeridas[][TAMTOKEN], i
         strcpy(szPalabrasSugeridas[(*iNumSugeridas)++], clon);
     }
 
-    // Inserci髇
+    // Inserci贸n
     for (int i = 0; szPalabraLeida[i] != '\0'; i++) {
         for (char c = 'a'; c <= 'z'; c++) {
             char clon[TAMTOKEN];
             strcpy(clon, szPalabraLeida);
             memmove(&clon[i + 1], &clon[i], strlen(clon) - i + 1);
-            clon[i] = c;  // Insertar car醕ter
+            clon[i] = c;  // Insertar car谩cter
             strcpy(szPalabrasSugeridas[(*iNumSugeridas)++], clon);
         }
     }
     // Ordenar las palabras clonadas
     qsort(szPalabrasSugeridas, *iNumSugeridas, TAMTOKEN, (int (*)(const void*, const void*))strcmp);
 }
-// Funci髇 para obtener la lista de palabras candidatas
+// Funci贸n para obtener la lista de palabras candidatas
 void ListaCandidatas(char szPalabrasSugeridas[][TAMTOKEN], int iNumSugeridas, char szPalabras[][TAMTOKEN],
     int iEstadisticas[], int iNumElementos, char szListaFinal[][TAMTOKEN], int iPeso[], int* iNumLista) {
     *iNumLista = 0;
 
+   
     for (int i = 0; i < iNumSugeridas; i++) {
-        for (int j = 0; j < iNumElementos; j++) {
+        int encontrado = 0;  // Inicializamos la bandera a 0 antes de cada iteraci贸n del primer bucle
+
+        for (int j = 0; j < iNumElementos && !encontrado; j++) {  // Continuamos mientras no se haya encontrado
             if (strcmp(szPalabrasSugeridas[i], szPalabras[j]) == 0) {
                 strcpy(szListaFinal[*iNumLista], szPalabras[j]);
                 iPeso[*iNumLista] = iEstadisticas[j];
                 (*iNumLista)++;
-                break;
+                encontrado = 1;  // Activamos la bandera cuando encontramos una coincidencia
             }
         }
     }
-}
