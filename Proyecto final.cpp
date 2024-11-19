@@ -109,3 +109,12 @@ void ListaCandidatas(char szPalabrasSugeridas[][TAMTOKEN], int iNumSugeridas, ch
             }
         }
     }
+
+
+
+#ifndef CORRECTOR_H
+#define CORRECTOR_H
+
+#define TAMTOKEN 50         // Tamaño máximo de cada palabra
+#define MAXPALABRAS 1000     // Número máximo de palabras en el diccionario
+
