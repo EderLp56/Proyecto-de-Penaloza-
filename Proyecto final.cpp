@@ -1,6 +1,5 @@
 //Proyecto de pe¤aloza 
-#include "corrector.h"
-#include <stdio.h>
+#include "corrector.h
 #include <stdlib.h>
 #include <string.h>
 
